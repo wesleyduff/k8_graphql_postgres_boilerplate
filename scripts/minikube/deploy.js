@@ -7,5 +7,14 @@ console.log(chalk.green(`==== DEPLOYING APPLICATION : for namespace : ${config.k
 shell.exec(`
     
     kubectl apply -f ${config.k8.deployment.path}
+    
+    echo "======= INSTALLING POSTGRESS ======"
+    
 
+`)
+
+console.log(chalk.red("COPY THIS !!! .. important to save this info"))
+
+shell.exec(`
+    helm install postgres bitnami/postgresql --namespace demo-space
 `)

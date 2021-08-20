@@ -20,3 +20,12 @@ NOTE * update config : local : to change anything you need for these scripts to 
 1. run script : `npm run minikube-teardown` // this removes everything under our namespace for our app and nothing else
 2. in terminal run : `minikube stop`
 3. close virtual box
+
+
+#Turn on tiller on minikube 
+minikube addons enable helm-tiller
+- validate its working : `kubectl get po --namespace kube-system`
+
+#POSTGRES
+- add charts `helm repo add bitnami https://charts.bitnami.com/bitnami`
+- run command to install postgres `helm install stable/postgresql --namespace demo-space`
