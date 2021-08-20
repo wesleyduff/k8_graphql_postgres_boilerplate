@@ -1,7 +1,6 @@
-const
-    ValidationError = require('./ValidationError'),
-    StarWarsCustomError = require('./StarWarsCustomError')
-;
+import ValidationError from './ValidationError.js'
+import StarWarsCustomError from './StarWarsCustomError.js'
+
 
 module.exports = {
     ValidationError,

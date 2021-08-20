@@ -8,7 +8,7 @@ ENV NODE_ENV $NODE_ENV
 ENV ENVIRONMENT $ENVIRONMENT
 
 # port 3000 is the port our node server runs on. If you change this, change the port for the node server as well
-EXPOSE 3000
+EXPOSE 3001
 
 # copy over all files in working dir EVEN the node_modules (most secure .. unsecure if we run npm i inside docker file because we need SSH keys to pull from stash)
 COPY . .

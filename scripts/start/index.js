@@ -1,8 +1,5 @@
-
-const
-    chalk = require('chalk'),
-    shell = require('shelljs')
-;
+import chalk from 'chalk'
+import shell from 'shelljs'
 
     console.log(chalk.green('------- CHECKING VERSION OF NODE ---------'))
 

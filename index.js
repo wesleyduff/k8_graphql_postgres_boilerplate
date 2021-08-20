@@ -1,16 +1,15 @@
-const
-    { ApolloServer, gql } = require('apollo-server')
-;
+import { ApolloServer, gql } from 'apollo-server'
 
 
 /**
  * Type Definitions
  */
+import sessionTypeDefs from './schemas/example/sessionSchema.js';
+import queryTypeDefs from './schemas/example/querySchema.js';
+import starWarsTypeDefs from './schemas/example/starWarsSchema.js';
+import weatherTypeDefs from './schemas/weatherSchema.js';
+
 const
-    sessionTypeDefs = require('./schemas/example/sessionSchema'),
-    queryTypeDefs = require('./schemas/example/querySchema'),
-    starWarsTypeDefs = require('./schemas/example/starWarsSchema'),
-    weatherTypeDefs = require('./schemas/weatherSchema'),
     typeDefs = `${sessionTypeDefs} ${queryTypeDefs} ${starWarsTypeDefs} ${weatherTypeDefs}`
 ;
 
@@ -20,8 +19,7 @@ const
 /**
  * Resolvers
  */
-const
-    resolvers = require('./resolvers/queryResolver')
+import resolvers from './resolvers/queryResolver.js'
 
 
 

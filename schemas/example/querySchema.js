@@ -8,4 +8,4 @@ const typeDef = `
     }
 `
 
-module.exports = typeDef;
+export default typeDef;

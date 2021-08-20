@@ -1,7 +1,5 @@
-const
-    { ApolloError } = require('apollo-server'),
-    CONSTANTS = require('../CONSTANTS')
-;
+import { ApolloError } from 'apollo-server';
+import CONSTANTS from '../CONSTANTS';
 
 module.exports = class StarWarsCustomError extends ApolloError {
     constructor(message, caller = null, extensions) {

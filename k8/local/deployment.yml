@@ -1,25 +1,32 @@
-apiVersion: extensions/v1beta1
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-space
+---
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: demo-space
-  name: graphql-demo
+  name: graphql-app-deployment
+  labels:
+    app: cache-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: graphql-demo
+      app: cache-demo
   template:
     metadata:
       labels:
-        app: graphql-demo
+        app: cache-demo
         track: stable
     spec:
       containers:
         - name: graphql-container
-          image: demoExample1:v1
+          image: demoexample1:v2
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 3000
+            - containerPort: 3001
 ---
 apiVersion: v1
 kind: Service
@@ -27,28 +34,12 @@ metadata:
   namespace: demo-space
   name: graphql-demo-svc
   labels:
-    app: graphql-demo-svc
+    app: cache-demo
 spec:
   ports:
     - port: 8080
-      targetPort: 3000
+      targetPort: 3001
       nodePort: 30080
   selector:
-    app: graphql-demo-api
+    app: cache-demo
   type: NodePort
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  namespace: demo-space
-  name: graph-demo-svc-ingress
-  annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
-spec:
-  rules:
-    - http:
-        paths:
-          - backend:
-              serviceName: graphql-demo-svc
-              servicePort: 8080
-            path: /myDemo

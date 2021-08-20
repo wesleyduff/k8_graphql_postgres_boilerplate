@@ -4,7 +4,7 @@ import shell from "shelljs";
 export default (config) => {
     console.log(chalk.yellow('--- starting'))
 
-    if(config.save.minikube){
+    if(config.docker.save.minikube){
         shell.exec(`
         
             echo "
@@ -18,11 +18,10 @@ export default (config) => {
             BUILDING DOCKER CONTAINER
             -----------------------------
             "
-            npm i
-            docker build \\\\
-            --build-arg NODE_ENV=${process.env.NODE_ENV} \\\\
-            --build-arg ENVIRONMENT=${process.env.ENVIRONMENT} \\\\\\\\
-            --file ${config.docker.docker_file_path} \\\\
+            docker build \\
+            --build-arg NODE_ENV=${process.env.NODE_ENV} \\
+            --build-arg ENVIRONMENT=${process.env.ENVIRONMENT} \\
+            --file ${config.docker.docker_file_path} \\
             -t ${config.docker.image.name}:${config.docker.image.version} .
             
             
@@ -33,6 +32,7 @@ export default (config) => {
             The docker image will be built on your local system under "minikube docker-env"
             
             ****/
+            "
             
             
         `)
@@ -43,22 +43,16 @@ export default (config) => {
          */
         shell.exec(`
         
-            echo "
-            ========== SETTING DOCKER ENVIRONMENT to Minikube ==============
-            "
-            
-            eval "$(docker-machine env -u)"
             
             echo "
             -----------------------------
             BUILDING DOCKER CONTAINER :
             -----------------------------
             "
-            npm i
-            docker build \\\\
-            --build-arg NODE_ENV=${process.env.NODE_ENV} \\\\
-            --build-arg ENVIRONMENT=${process.env.ENVIRONMENT} \\\\
-            --file ${config.docker.docker_file_path} \\\\
+            docker build \\
+            --build-arg NODE_ENV=${process.env.NODE_ENV} \\
+            --build-arg ENVIRONMENT=${process.env.ENVIRONMENT} \\
+            --file ${config.docker.docker_file_path} \\
             -t ${config.docker.image.name}:${config.docker.image.version} .
             
             

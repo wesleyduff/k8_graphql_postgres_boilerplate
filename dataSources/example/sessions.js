@@ -1,6 +1,5 @@
-const
-    sessions = require('../../MOCKS/data/sessions.json'),
-    { DataSource } = require('apollo-datasource')
+import sessions from '../../MOCKS/data/sessions.json'
+import { DataSource } from 'apollo-datasource'
 ;
 
 class SessionAPI extends  DataSource {

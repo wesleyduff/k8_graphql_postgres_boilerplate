@@ -1,10 +1,10 @@
-const
+import
     {
         gql
-    } = require('apollo-server')
+    } from 'apollo-server'
 ;
 
-module.exports = gql`
+export const typeDef = gql`
     type Query{
         sessions:[Session]
     }

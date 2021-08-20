@@ -1,10 +1,4 @@
-
-const
-    { RESTDataSource } = require('apollo-datasource-rest'),
-    {
-        ValidationError
-    } = require('../errors')
-;
+import { RESTDataSource } from 'apollo-datasource-rest'
 
 class WeatherAPI extends RESTDataSource {
     constructor(){
