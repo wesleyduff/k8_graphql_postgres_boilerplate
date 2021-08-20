@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: graphql-container
-          image: local-graphql-v1
+          image: demoExample1:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
