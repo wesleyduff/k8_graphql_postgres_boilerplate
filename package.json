@@ -1,0 +1,21 @@
+{
+  "name": "graphql_postgres",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker-start": "NODE_ENV=docker ENVIRONMENT=docker node app.js",
+    "local": "NODE_ENV=local ENVIRONMENT=local node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wesleyduff/k8_graphql_postgres_boilerplate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wesleyduff/k8_graphql_postgres_boilerplate/issues"
+  },
+  "homepage": "https://github.com/wesleyduff/k8_graphql_postgres_boilerplate#readme"
+}

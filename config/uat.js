@@ -1,0 +1,18 @@
+const {
+    mongo_url
+} = require('./mongo_url');
+
+module.exports = {
+    service: 'transit',
+    environment: 'uat',
+    name: 'local',
+    "mongo": {
+        "url": mongo_url,
+        "options": {
+            "native_parser":true,
+            "poolSize":5
+        }
+    },
+    endpoints: {
+    }
+}
