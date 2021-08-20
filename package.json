@@ -6,7 +6,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker-start": "NODE_ENV=docker ENVIRONMENT=docker node app.js",
+    "start": "node ./scripts/start/index.js",
     "local": "NODE_ENV=local ENVIRONMENT=local node app.js"
+  },
+  "dependencies": {
+    "apollo-datasource": "^3.0.3",
+    "apollo-datasource-rest": "^3.1.1",
+    "apollo-server": "^3.1.2",
+    "graphql": "^15.5.1"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.2",
+    "nodemon": "^2.0.12",
+    "shelljs": "^0.8.4"
   },
   "repository": {
     "type": "git",
