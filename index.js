@@ -1,4 +1,5 @@
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer } from 'apollo-server';
+import util from 'util';
 
 
 /**
@@ -14,6 +15,19 @@ const
     typeDefs = `${queryTypeDefs} ${starWarsTypeDefs}`
 ;
 
+/**
+ * Create Database Connection
+ */
+import PostgresqlDatabaseConnection from './lib/services/PostgreSQL/Connect.js';
+const postgresqlDatabaseConnectionService = new PostgresqlDatabaseConnection();
+
+
+let store = null;
+try {
+    store = postgresqlDatabaseConnectionService.createStore();
+} catch(exception){
+    process.kill(process.pid, 'SIGTERM');
+}
 
 
 
@@ -22,7 +36,8 @@ const
  */
 import resolvers from './resolvers/queryResolver.js'
 
-import StarWarsAPI from './dataSources/example/starWarsApi.js'
+import StarWarsAPI from './dataSources/example/starWarsApi.js';
+import PostgrSqlAPI from './dataSources/example/postgresql.datasource.js';
 
 
 
@@ -33,6 +48,7 @@ import StarWarsAPI from './dataSources/example/starWarsApi.js'
 const dataSources = () => ({
     // sessionAPI: new (require('./dataSources/example/sessions'))(),
     starWarsAPI: new StarWarsAPI(),
+    postgrSqlAPI: new PostgrSqlAPI({store})
     // weatherAPI: new (require('./dataSources/WeatherAPI'))()
 })
 
@@ -47,8 +63,29 @@ const server = new ApolloServer({
 
 server
     .listen({
-        port: process.env.PORT || 3003
+        port: process.env.PORT || 3000
     })
     .then(({url}) => {
         console.log(`INFO : SERVER NOTIFICATION : graph QL running at ${url}`)
     });
+
+
+
+// Create a function to terminate your app gracefully:
+function gracefulShutdown(e){
+    console.log('INFO : DB is shutting down due to exit, SIGNINT, SIGTERM, or uncaughtException', util.inspect(e));
+    process.exit(101);
+}
+
+
+// This will handle process.exit():
+process.on('exit', async (code) => {
+  await postgresqlDatabaseConnectionService.closeConnection();
+});
+
+// This will handle kill commands, such as CTRL+C:
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
+
+// This will prevent dirty exit on code-fault crashes:
+process.on('uncaughtException', gracefulShutdown);

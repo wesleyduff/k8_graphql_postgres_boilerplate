@@ -23,8 +23,13 @@ NOTE * update config : local : to change anything you need for these scripts to 
 
 
 #Turn on tiller on minikube 
-minikube addons enable helm-tiller
+- run : `minikube addons enable helm-tiller`
 - validate its working : `kubectl get po --namespace kube-system`
+
+# Turn on ingress for minikube
+- run : `minikube addons enable ingress`
+- Verify that the NGINX Ingress controller is running : `kubectl get pods -n kube-system`
+  - look for : similar to this : `nginx-ingress-controller-5984b97644-rnkrg   1/1       Running   0          1m`
 
 #POSTGRES
 - add charts `helm repo add bitnami https://charts.bitnami.com/bitnami`

@@ -18,7 +18,8 @@
     "apollo-datasource": "^3.0.3",
     "apollo-datasource-rest": "^3.1.1",
     "apollo-server": "^3.1.2",
-    "graphql": "^15.5.1"
+    "graphql": "^15.5.1",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "chalk": "^4.1.2",
