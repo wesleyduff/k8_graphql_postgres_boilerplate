@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     VALIDATION_ERROR : 'VALIDATION_ERROR',
     BASE_ERROR : 'BASE_ERROR',
     STARWARS_CUSTOM_ERROR : 'STARWARS_CUSTOM_ERROR'

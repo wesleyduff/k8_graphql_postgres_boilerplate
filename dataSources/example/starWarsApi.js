@@ -1,10 +1,7 @@
-const
-    { RESTDataSource } = require('apollo-datasource-rest'),
-    {
-        StarWarsCustomError
-    } = require('../../errors'),
-    starWars = require('../../MOCKS/data/starWars.json')
-;
+import { RESTDataSource } from 'apollo-datasource-rest';
+import ERRORS from '../../errors/index.js';
+import fs from 'fs';
+import path from 'path'
 
 class StarWarsApi extends  RESTDataSource {
     constructor(){
@@ -15,15 +12,14 @@ class StarWarsApi extends  RESTDataSource {
     }
 
     async getPlanet(id) {
-        throw new StarWarsCustomError('ERROR : INFO : STARWARS : test throw validation', 'SessionAPI -> getPlanet', {log : {level: 'debug'}})
-        //return this.get(`planets/${id}`); //comment out so we do not hit api
-        return starWars.planets;
+        throw new ERRORS.StarWarsCustomError('ERROR : INFO : STARWARS : test throw validation', 'SessionAPI -> getPlanet', {log : {level: 'debug'}})
+        return this.get(`planets/${id}`); //comment out so we do not hit api
+
     }
 
     async getCharacter(id) {
-        //return this.get(`people/${id}`); //comment out so we do not hit api
-        return starWars.people;
+        return this.get(`people/${id}`); //comment out so we do not hit api
     }
 }
 
-module.exports = StarWarsApi;
+export default StarWarsApi;

@@ -1,16 +1,17 @@
-import { ApolloServer, gql } from 'apollo-server'
+import { ApolloServer } from 'apollo-server'
 
 
 /**
  * Type Definitions
  */
-import sessionTypeDefs from './schemas/example/sessionSchema.js';
+// import sessionTypeDefs from './schemas/example/sessionSchema.js';
 import queryTypeDefs from './schemas/example/querySchema.js';
 import starWarsTypeDefs from './schemas/example/starWarsSchema.js';
-import weatherTypeDefs from './schemas/weatherSchema.js';
+// import weatherTypeDefs from './schemas/weatherSchema.js';
 
 const
-    typeDefs = `${sessionTypeDefs} ${queryTypeDefs} ${starWarsTypeDefs} ${weatherTypeDefs}`
+   // typeDefs = `${sessionTypeDefs} ${queryTypeDefs} ${starWarsTypeDefs} ${weatherTypeDefs}`
+    typeDefs = `${queryTypeDefs} ${starWarsTypeDefs}`
 ;
 
 
@@ -21,6 +22,8 @@ const
  */
 import resolvers from './resolvers/queryResolver.js'
 
+import StarWarsAPI from './dataSources/example/starWarsApi.js'
+
 
 
 /**
@@ -28,9 +31,9 @@ import resolvers from './resolvers/queryResolver.js'
  */
 
 const dataSources = () => ({
-    sessionAPI: new (require('./dataSources/example/sessions'))(),
-    starWarsAPI: new (require('./dataSources/example/starWarsApi'))(),
-    weatherAPI: new (require('./dataSources/WeatherAPI'))()
+    // sessionAPI: new (require('./dataSources/example/sessions'))(),
+    starWarsAPI: new StarWarsAPI(),
+    // weatherAPI: new (require('./dataSources/WeatherAPI'))()
 })
 
 
@@ -44,7 +47,7 @@ const server = new ApolloServer({
 
 server
     .listen({
-        port: process.env.PORT || 3001
+        port: process.env.PORT || 3003
     })
     .then(({url}) => {
         console.log(`INFO : SERVER NOTIFICATION : graph QL running at ${url}`)

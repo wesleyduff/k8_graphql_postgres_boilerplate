@@ -2,7 +2,7 @@ import ValidationError from './ValidationError.js'
 import StarWarsCustomError from './StarWarsCustomError.js'
 
 
-module.exports = {
+export default {
     ValidationError,
     StarWarsCustomError
 }
