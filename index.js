@@ -1,7 +1,5 @@
 import { ApolloServer } from 'apollo-server';
 import util from 'util';
-
-
 /**
  * Type Definitions
  */
@@ -15,76 +13,63 @@ import starWarsTypeDefs from './schemas/example/starWarsSchema.js';
  */
 import resolvers from './resolvers/queryResolver.js'
 
-const
-   // typeDefs = `${sessionTypeDefs} ${queryTypeDefs} ${starWarsTypeDefs} ${weatherTypeDefs}`
-    typeDefs = `${queryTypeDefs} ${starWarsTypeDefs}`
-;
 
-const appPromise = () => {
-    return new Promise(async (resolve, reject) => {
-
-        /**
-         * Create Database Connection
-         */
-        import PostgresqlDatabaseConnection from './lib/services/PostgreSQL/Connect.js';
-        const postgresqlDatabaseConnectionService = new PostgresqlDatabaseConnection();
+/**
+ * DataSources
+ */
+import StarWarsAPI from './dataSources/example/starWarsApi.js';
+import PostgrSqlAPI from './dataSources/example/postgresql.datasource.js';
 
 
 
-        let store = null;
-        try {
-            store = (async() => { return await postgresqlDatabaseConnectionService.createStore() })()
-        } catch(exception){
-            process.kill(process.pid, 'SIGTERM');
-        }
+/**
+ * Create Database Connection
+ */
+import PostgresqlDatabaseConnection from './lib/services/PostgreSQL/Connect.js';
+const postgresqlDatabaseConnectionService = new PostgresqlDatabaseConnection();
+
+
+try {
+    postgresqlDatabaseConnectionService.createStore()
+        .then(store => {
+
+            const
+                // typeDefs = `${sessionTypeDefs} ${queryTypeDefs} ${starWarsTypeDefs} ${weatherTypeDefs}`
+                typeDefs = `${queryTypeDefs} ${starWarsTypeDefs}`
+            ;
+
+
+            const dataSources = () => ({
+                // sessionAPI: new (require('./dataSources/example/sessions'))(),
+                starWarsAPI: new StarWarsAPI(),
+                postgrSqlAPI: new PostgrSqlAPI(store)
+                // weatherAPI: new (require('./dataSources/WeatherAPI'))()
+            })
 
 
 
+            const server = new ApolloServer({
+                typeDefs,
+                resolvers,
+                dataSources
+            });
 
-        import StarWarsAPI from './dataSources/example/starWarsApi.js';
-        import PostgrSqlAPI from './dataSources/example/postgresql.datasource.js';
+            server
+                .listen({
+                    port: process.env.PORT || 3001
+                })
+                .then(({url}) => {
+                    console.log(`INFO : SERVER NOTIFICATION : graph QL running at ${url}`)
+                });
 
-
-
-        /**
-         * Data Sources
-         */
-
-        const dataSources = () => ({
-            // sessionAPI: new (require('./dataSources/example/sessions'))(),
-            starWarsAPI: new StarWarsAPI(),
-            postgrSqlAPI: new PostgrSqlAPI(store)
-            // weatherAPI: new (require('./dataSources/WeatherAPI'))()
         })
-
-
-
-        const server = new ApolloServer({
-            typeDefs,
-            resolvers,
-            dataSources
-        });
-
-        return resolve( { server } );
-    })
-
-
+        .catch(exception => {
+            process.kill(process.pid, 'SIGTERM');
+        })
+} catch(exception){
+    process.kill(process.pid, 'SIGTERM');
 }
 
-const promise = appPromise();
-
-if(typeof module !== 'undefined') {
-    module.exports = promise;
-}
-
-
-server
-    .listen({
-        port: process.env.PORT || 3001
-    })
-    .then(({url}) => {
-        console.log(`INFO : SERVER NOTIFICATION : graph QL running at ${url}`)
-    });
 
 
 
