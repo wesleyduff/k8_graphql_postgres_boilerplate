@@ -6,6 +6,7 @@ import util from 'util';
 // import sessionTypeDefs from './schemas/example/sessionSchema.js';
 import queryTypeDefs from './schemas/example/querySchema.js';
 import starWarsTypeDefs from './schemas/example/starWarsSchema.js';
+import userTypeDefs from './schemas/example/userSchema.js';
 // import weatherTypeDefs from './schemas/weatherSchema.js';
 
 /**
@@ -35,7 +36,7 @@ try {
 
             const
                 // typeDefs = `${sessionTypeDefs} ${queryTypeDefs} ${starWarsTypeDefs} ${weatherTypeDefs}`
-                typeDefs = `${queryTypeDefs} ${starWarsTypeDefs}`
+                typeDefs = `${queryTypeDefs} ${starWarsTypeDefs} ${userTypeDefs}`
             ;
 
 

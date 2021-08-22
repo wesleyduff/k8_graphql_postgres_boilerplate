@@ -31,6 +31,14 @@ class PostgresqlDataSource extends ApolloDataSource.DataSource {
         console.log(`FROM SEED : ${util.inspect(seed)}`)
         return "success"
     }
+
+    async getUsers(){
+        console.log(`DEBUGGING --> store : ${util.inspect(this.store)}`)
+        console.log(`DEBUGGING --> context : ${util.inspect(this.context)}`)
+        const usersList = await this.store.getUsers();
+        console.log(`FROM SEED : ${util.inspect(usersList)}`)
+        return usersList;
+    }
 }
 
 export default PostgresqlDataSource;
