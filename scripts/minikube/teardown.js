@@ -7,5 +7,7 @@ console.log(chalk.green(`==== REMOING APPLICATION : from namespace : ${config.k8
 shell.exec(`
     
     kubectl delete all --all -n ${config.k8.namespace}
+    
+    helm uninstall postgres --namespace demo-space
 
 `)

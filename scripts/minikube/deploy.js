@@ -16,5 +16,11 @@ shell.exec(`
 console.log(chalk.red("COPY THIS !!! .. important to save this info"))
 
 shell.exec(`
-    helm install postgres bitnami/postgresql --namespace demo-space
+helm install postgresql --version 8.7.3 \\
+    --set postgresqlUsername=postgres \\
+    --set postgresqlPassword=postgres \\
+    bitnami/postgresql \\
+    --namespace demo-space
+    
+ 
 `)

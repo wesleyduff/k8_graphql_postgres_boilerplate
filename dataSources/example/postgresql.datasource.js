@@ -3,7 +3,7 @@ import ERRORS from '../../errors/index.js';
 import util from 'util';
 
 class PostgresqlDataSource extends ApolloDataSource.DataSource {
-    constructor({store}){
+    constructor(store){
         // Always call super()
         super();
         this.store = store;
@@ -29,6 +29,7 @@ class PostgresqlDataSource extends ApolloDataSource.DataSource {
         console.log(`DEBUGGING --> context : ${util.inspect(this.context)}`)
         const seed = await this.store.seed();
         console.log(`FROM SEED : ${util.inspect(seed)}`)
+        return "success"
     }
 }
 

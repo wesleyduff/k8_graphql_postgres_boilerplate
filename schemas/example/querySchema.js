@@ -2,7 +2,8 @@
 const typeDef = `
     type Query{
         getStarWarsPerson(id:ID!):starWarsPeople,
-        getStarWarsPlanet(id:ID!):starWarsPlanet
+        getStarWarsPlanet(id:ID!):starWarsPlanet,
+        seedDatabase:String
     }
 `
 
