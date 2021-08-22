@@ -7,12 +7,14 @@ import util from 'util';
 import queryTypeDefs from './schemas/example/querySchema.js';
 import starWarsTypeDefs from './schemas/example/starWarsSchema.js';
 import userTypeDefs from './schemas/example/userSchema.js';
+import mutationTypeDefs from './schemas/example/mutationSchema.js';
 // import weatherTypeDefs from './schemas/weatherSchema.js';
 
 /**
  * Resolvers
  */
-import resolvers from './resolvers/queryResolver.js'
+import queryResolver from './resolvers/queryResolver.js';
+import mutationResolver from './resolvers/mutationResolver.js';
 
 
 /**
@@ -36,7 +38,7 @@ try {
 
             const
                 // typeDefs = `${sessionTypeDefs} ${queryTypeDefs} ${starWarsTypeDefs} ${weatherTypeDefs}`
-                typeDefs = `${queryTypeDefs} ${starWarsTypeDefs} ${userTypeDefs}`
+                typeDefs = `${queryTypeDefs} ${starWarsTypeDefs} ${userTypeDefs} ${mutationTypeDefs}`
             ;
 
 
@@ -47,6 +49,8 @@ try {
                 // weatherAPI: new (require('./dataSources/WeatherAPI'))()
             })
 
+            //put all resolvers together
+            const resolvers = Object.assign({}, queryResolver, mutationResolver)
 
 
             const server = new ApolloServer({

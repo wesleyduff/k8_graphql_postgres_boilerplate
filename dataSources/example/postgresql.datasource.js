@@ -25,19 +25,18 @@ class PostgresqlDataSource extends ApolloDataSource.DataSource {
      * instead
      */
     async seedDatabase(args = {}) {
-        console.log(`DEBUGGING --> store : ${util.inspect(this.store)}`)
-        console.log(`DEBUGGING --> context : ${util.inspect(this.context)}`)
         const seed = await this.store.seed();
-        console.log(`FROM SEED : ${util.inspect(seed)}`)
         return "success"
     }
 
     async getUsers(){
-        console.log(`DEBUGGING --> store : ${util.inspect(this.store)}`)
-        console.log(`DEBUGGING --> context : ${util.inspect(this.context)}`)
         const usersList = await this.store.getUsers();
-        console.log(`FROM SEED : ${util.inspect(usersList)}`)
         return usersList;
+    }
+
+    async findOrCreateUser({user}){
+        const response = await this.store.findOrCreateUser(user);
+        return response;
     }
 }
 
