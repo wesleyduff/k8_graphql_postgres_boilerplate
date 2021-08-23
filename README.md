@@ -143,3 +143,47 @@ ngrok is a good solution for POC
 2. run `ngrok http 192.168.99.100:30080`
 
 This gives you an https endpoint. Use that in the settings pannel on studio to change the url of where to load your graphQL apollo server.
+
+# Example of Automated Persisted Query
+[docs](https://www.apollographql.com/docs/apollo-server/performance/apq/#cache-configuration)
+```javascript
+ async () => {
+        const endpointbase = "http://192.168.99.100:30083";
+        const query = 'query{getUsers{id,email}}';
+        const hash = await encrypt(query);
+        const persistedUrl = `${endpointbase}/graphql/?extensions={"persistedQuery":{"version":1,"sha256Hash":"${hash}"}}`;
+        const setPersistUrl = `${endpointbase}/graphql/?query=${query}&extensions={"persistedQuery":{"version":1,"sha256Hash":"${hash}"}}`;
+        return new Promise((resolve, reject) => {
+            request({
+               url: persistedUrl
+            }, (error, response, body) => {
+                if(error){
+                    console.log(`error : ${util.inspect(error)}`)
+                }
+
+                const cacheHit = response.headers['x-cache'] === 'HIT' ? 'YES:CACHE' : 'NO:CACHE';
+                const _body = JSON.parse(body);
+
+                if(_body.errors && Array.isArray(_body.errors) && _body.errors.length > 0 && _body.errors[0].extensions.code === "PERSISTED_QUERY_NOT_FOUND"){
+                    console.log('try again')
+                        request({
+                            url: setPersistUrl
+                        }, (error, response, body) => {
+                            if(error){
+                                console.log(`error : ${util.inspect(error)}`)
+                            }
+
+                            const _body = JSON.parse(body);
+                           return resolve({data: _body.data.getUsers, fromCache: cacheHit})
+                        });
+                } else {
+
+                    return resolve({data: _body.data.getUsers, fromCache: cacheHit})
+                }
+
+
+
+            })
+        })
+    }
+```
