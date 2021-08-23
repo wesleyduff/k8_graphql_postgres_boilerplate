@@ -8,6 +8,7 @@ import queryTypeDefs from './schemas/example/querySchema.js';
 import starWarsTypeDefs from './schemas/example/starWarsSchema.js';
 import userTypeDefs from './schemas/example/userSchema.js';
 import mutationTypeDefs from './schemas/example/mutationSchema.js';
+import cacheControlTypeDefs from './schemas/cacheControlSchema.js';
 // import weatherTypeDefs from './schemas/weatherSchema.js';
 
 /**
@@ -38,7 +39,7 @@ try {
 
             const
                 // typeDefs = `${sessionTypeDefs} ${queryTypeDefs} ${starWarsTypeDefs} ${weatherTypeDefs}`
-                typeDefs = `${queryTypeDefs} ${starWarsTypeDefs} ${userTypeDefs} ${mutationTypeDefs}`
+                typeDefs = `${queryTypeDefs} ${starWarsTypeDefs} ${userTypeDefs} ${mutationTypeDefs} ${cacheControlTypeDefs}`
             ;
 
 
@@ -56,7 +57,10 @@ try {
             const server = new ApolloServer({
                 typeDefs,
                 resolvers,
-                dataSources
+                dataSources,
+                persistedQueries: {
+                    ttl: 60, //1 minute default
+                }
             });
 
             server
