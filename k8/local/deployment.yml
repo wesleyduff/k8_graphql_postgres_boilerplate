@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: graphql-container
-          image: demoexample1:v2
+          image: demoexample1:v8
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3001

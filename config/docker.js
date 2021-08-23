@@ -32,7 +32,7 @@ module.exports = {
         }
     },
     postgres: {
-        url: process.env.ENVIRONMENT==="minikube" ? 'postgresql.demo-space.svc.cluster.local' : '127.0.0.1',
+        url: 'postgresql.demo-space.svc.cluster.local'
     },
     endpoints: {
     }

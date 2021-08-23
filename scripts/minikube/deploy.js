@@ -8,14 +8,16 @@ shell.exec(`
     
     kubectl apply -f ${config.k8.deployment.path}
     
-    echo "======= INSTALLING POSTGRESS ======"
     
 
 `)
 
-console.log(chalk.red("COPY THIS !!! .. important to save this info"))
 
-shell.exec(`
+
+if(process.env.POSTGRES_INSTALL === "true"){
+    console.log(chalk.red("========== POSTGRES INSTALL ==============="))
+    console.log(chalk.red("COPY THIS !!! .. important to save this info"))
+    shell.exec(`
 helm install postgresql --version 8.7.3 \\
     --set postgresqlUsername=postgres \\
     --set postgresqlPassword=postgres \\
@@ -24,3 +26,13 @@ helm install postgresql --version 8.7.3 \\
     
  
 `)
+}
+
+if(process.env.VARNISH_INSTALL==="true"){
+    console.log(chalk.red("========== VARNISH INSTALL ==============="))
+    shell.exec(`
+    
+    kubectl apply -f ${config.k8.varnish.deployment.path}
+    
+    `)
+}

@@ -10,7 +10,7 @@
     "start": "node ./scripts/start/index.js",
     "local": "LOCAL_MACHINE=false MINIKUBE=true NODE_ENV=local ENVIRONMENT=local node --trace-warnings ./scripts/local/build.js",
     "docker-clear": "node ./scripts/docker/clean.docker.js",
-    "minikube-deploy": "NODE_ENV=local ENVIRONMENT=local node ./scripts/minikube/deploy.js",
+    "minikube-deploy": "POSTGRES_INSTALL=false VARNISH_INSTALL=true NODE_ENV=local ENVIRONMENT=local node ./scripts/minikube/deploy.js",
     "minikube-teardown": "NODE_ENV=local ENVIRONMENT=local node ./scripts/minikube/teardown.js",
     "minikube-endpoint-graphql": "NODE_ENV=local ENVIRONMENT=local node ./scripts/minikube/getendpoint.graphql.js"
   },

@@ -1,8 +1,18 @@
 let config = null;
 switch (process.env.ENVIRONMENT || 'test') {
+    case 'docker': {
+        const docker = require('./docker.js')
+        config = docker;
+        break;
+    }
     case 'local': {
         const local = require('./local.js')
         config = local;
+        break;
+    }
+    case 'minikube': {
+        const minikube = require('./minikube.js')
+        config = minikube;
         break;
     }
     case 'CI_CD': {
