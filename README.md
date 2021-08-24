@@ -147,9 +147,9 @@ This gives you an https endpoint. Use that in the settings pannel on studio to c
 # Example of Automated Persisted Query
 [docs](https://www.apollographql.com/docs/apollo-server/performance/apq/#cache-configuration)
 ```javascript
- async () => {
+async () => {
         const endpointbase = "http://192.168.99.100:30083";
-        const query = 'query{getUsers{id,email}}';
+        const query = 'query{getUsers{id,email,data}}';
         const hash = await encrypt(query);
         const persistedUrl = `${endpointbase}/graphql/?extensions={"persistedQuery":{"version":1,"sha256Hash":"${hash}"}}`;
         const setPersistUrl = `${endpointbase}/graphql/?query=${query}&extensions={"persistedQuery":{"version":1,"sha256Hash":"${hash}"}}`;
@@ -166,16 +166,60 @@ This gives you an https endpoint. Use that in the settings pannel on studio to c
 
                 if(_body.errors && Array.isArray(_body.errors) && _body.errors.length > 0 && _body.errors[0].extensions.code === "PERSISTED_QUERY_NOT_FOUND"){
                     console.log('try again')
-                        request({
-                            url: setPersistUrl
-                        }, (error, response, body) => {
-                            if(error){
-                                console.log(`error : ${util.inspect(error)}`)
+                    /**
+                     * This works but make post instead so that query can be any size
+                     * if we use GET request to send the query, it may fail because the total number of characters on a URL can only be 2048
+                     * It is best to use a POST here to set the HASH
+                     * Setup
+                     * -> ask for GET w/ HASH ? NO -> no hash found : (node : VARNISH DOES NOT CACHE failed responses)
+                     * -> ask for data w/ POST and provide a POST body w/ the query (query can be any size as long as it does not trip our security check)
+                     * -> - data comes back and HASH is set on APOLLO SERVER
+                     * TIME PASSES
+                     * GET request is made with HASH... VARNISH does not find it in cache because this request has never come back with a valid cachable response
+                     * APOLLO server finds the HASH and returns from APOLLO MEMORY CACHE (based on TTL set on Schema / Resolver or Core)
+                     * VARNISH caches response because the response is cacheable 
+                     * TIME PASSES
+                     * GET request is made again for the same HASH .. VARNISH has the cached value and returns it. 
+                     * APOLLO server is NEVER called because varnish returned our data based on the TTL.
+                     */
+                    // request({
+                        //     url: setPersistUrl
+                        // }, (error, response, body) => {
+                        //     if(error){
+                        //         console.log(`error : ${util.inspect(error)}`)
+                        //     }
+                        //
+                        //     const _body = JSON.parse(body);
+                        //    return resolve({data: _body.data.getUsers, fromCache: cacheHit})
+                        // });
+
+
+                    /**
+                     * Make post
+                     */
+                        request.post({
+                            url: endpointbase,
+                            body:JSON.stringify({
+                                query,
+                                extensions:{
+                                    persistedQuery : {
+                                        version: 1,
+                                        sha256Hash:hash
+                                    }
+                                }
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json'
                             }
 
-                            const _body = JSON.parse(body);
-                           return resolve({data: _body.data.getUsers, fromCache: cacheHit})
-                        });
+                        }, (error, response, body) => {
+                                if(error){
+                                    console.log(`error : ${util.inspect(error)}`)
+                                }
+
+                                const _body = JSON.parse(body);
+                               return resolve({data: _body.data.getUsers, fromCache: cacheHit})
+                            });
                 } else {
 
                     return resolve({data: _body.data.getUsers, fromCache: cacheHit})
