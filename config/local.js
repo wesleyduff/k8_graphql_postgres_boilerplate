@@ -10,7 +10,7 @@ module.exports = {
         bindmount: false, //set to true if you want to edit files on local machine and see them change within the docker container
         image: {
             name: 'demoexample1', //must be LOWERCASE
-            version: 'v8'
+            version: 'v9'
         },
         save: {
             local_machine: false,

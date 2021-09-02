@@ -30,29 +30,35 @@ sub vcl_recv {
         # set backend host
         set req.backend_hint = graphQlApi;
 
-    # ONLY deal w/ GET and HEAD requests.. the rest like POST, PUT, PATCH etc.. just pass through to the backend
-    if(req.method != "GET" && req.method != "HEAD") {
 
-        return (pass);
-
-    }
-
-    #remove cookies from requests that do not need them
-    # ** you should also remove any cookies that have nothing to do w/ the backend services. that way they do not get cached
-    # ** should do the same w/ headers
-    #if(req.url ~ "^[^?]*\.(css|gif|gz|ico|jpeg|jpg|js|png|xml)(\?.*)?$"){
-    #    unset req.http.Cookie;
-    #}
-
-    # Remove any Google Analytics based cookie
-    #set req.http.Cookie = regsuball(req.http.Cookie, "__utm.=[^;]+(; )?", "");
-    #set req.http.Cookie = regsuball(req.http.Cookie, "_ga=[^;]+(; )?", "");
+        # **** Normalize the query arguments *****
+        # uncomment below to normalise : ?name=wes&last=duff : ?last=duff&name=wes
+         set req.url = std.querysort(req.url);
 
 
 
-    # **** Normalize the query arguments *****
-    # uncomment below to normalise : ?name=wes&last=duff : ?last=duff&name=wes
-    # set req.url = std.querysort(req.url);
+
+        # ONLY deal w/ GET and HEAD requests.. the rest like POST, PUT, PATCH etc.. just pass through to the backend
+        if(req.method != "GET" && req.method != "HEAD") {
+
+            return (pass);
+
+        }
+
+        #remove cookies from requests that do not need them
+        # ** you should also remove any cookies that have nothing to do w/ the backend services. that way they do not get cached
+        # ** should do the same w/ headers
+        #if(req.url ~ "^[^?]*\.(css|gif|gz|ico|jpeg|jpg|js|png|xml)(\?.*)?$"){
+        #    unset req.http.Cookie;
+        #}
+
+        # Remove any Google Analytics based cookie
+        #set req.http.Cookie = regsuball(req.http.Cookie, "__utm.=[^;]+(; )?", "");
+        #set req.http.Cookie = regsuball(req.http.Cookie, "_ga=[^;]+(; )?", "");
+
+
+
+
     }
 
 }

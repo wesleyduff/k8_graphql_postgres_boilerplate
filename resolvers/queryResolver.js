@@ -19,7 +19,7 @@ export default {
         },
         getUsers: (parent, args, { dataSources }, info) => {
             //overrides any cache set on schemas : FYI
-            info.cacheControl.setCacheHint({ maxAge: 60, scope: 'PUBLIC' });
+            info.cacheControl.setCacheHint({ maxAge: 60, scope: "PUBLIC" });
             return dataSources.postgrSqlAPI.getUsers();
         }
     }

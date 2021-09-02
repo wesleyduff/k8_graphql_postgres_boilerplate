@@ -5,7 +5,7 @@ const typeDef = `
     scalar Timestamp
     scalar TimestampTz
     
-    type User @cacheControl(maxAge: 240, scope: 'PUBLIC') {
+    type User @cacheControl(maxAge: 240, scope: "PUBLIC") {
         id: ID!
         email: String!
         data: JSON
