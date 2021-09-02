@@ -31,7 +31,7 @@ sub vcl_recv {
         set req.backend_hint = graphQlApi;
 
 
-        # **** Normalize the query arguments *****
+        # **** Normalize the query arguments ******
         # uncomment below to normalise : ?name=wes&last=duff : ?last=duff&name=wes
          set req.url = std.querysort(req.url);
 
